@@ -1,61 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrzewoDecyzyjne
 {
-    internal class baza
+    internal class Baza
     {
         public double[][] wektory;
-        string[] etykiety;
+        public string[] etykiety;
 
         public void wczytajDane(string sciezka)
         {
-            if (File.Exists(sciezka))
+            if (!File.Exists(sciezka))
             {
-                int lWierszy = 0;
-                using (StreamReader sr = new StreamReader(sciezka))
+                Console.WriteLine($"Błąd: Nie znaleziono pliku {sciezka}");
+                return;
+            }
+
+            int lWierszy = 0;
+
+            using (StreamReader sr = new StreamReader(sciezka))
+            {
+                string linia;
+                while ((linia = sr.ReadLine()) != null)
                 {
-
-
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
+                    if (!string.IsNullOrWhiteSpace(linia))
                     {
-                        if (!string.IsNullOrWhiteSpace(line))
-                            lWierszy++;
+                        lWierszy++;
                     }
-                    if (lWierszy == 0) return;
-
-                    wektory = new double[lWierszy][];
-                    etykiety = new string[lWierszy];
                 }
+            }
 
-                using (StreamReader sr = new StreamReader(sciezka))
+            if (lWierszy == 0) return;
+
+            wektory = new double[lWierszy][];
+            etykiety = new string[lWierszy];
+
+            using (StreamReader sr = new StreamReader(sciezka))
+            {
+                string linia;
+                int i = 0;
+                while ((linia = sr.ReadLine()) != null)
                 {
-                    string line;
-                    int i = 0;
-                    while ((line = sr.ReadLine()) != null)
+                    if (string.IsNullOrWhiteSpace(linia)) continue;
+
+                    string[] fragmenty = linia.Split(',');
+                    int liczbaCech = fragmenty.Length - 1;
+
+                    wektory[i] = new double[liczbaCech];
+
+                    for (int j = 0; j < liczbaCech; j++)
                     {
-                        if (string.IsNullOrWhiteSpace(line)) continue;
-
-                        string[] fragmenty = line.Split(',');
-                        int liczbaCech = fragmenty.Length - 1;
-
-                        wektory[i] = new double[liczbaCech];
-
-                        for (int j = 0; j < liczbaCech; j++)
-                        {
-                            double.TryParse(fragmenty[j], NumberStyles.Any, CultureInfo.InvariantCulture, out wektory[i][j]);
-                        }
-
-                        etykiety[i] = fragmenty[liczbaCech].Trim();
-                        i++;
+                        double.TryParse(fragmenty[j], NumberStyles.Any, CultureInfo.InvariantCulture, out wektory[i][j]);
                     }
+
+                    etykiety[i] = fragmenty[liczbaCech].Trim();
+                    i++;
                 }
             }
         }
@@ -75,4 +75,3 @@ namespace DrzewoDecyzyjne
         }
     }
 }
-

@@ -17,6 +17,7 @@ namespace DrzewoDecyzyjne
             indexTable = new int[size];
             for (int i = 0; i < size; i++)
                 indexTable[i] = i;
+            Random.Shared.Shuffle(indexTable);
 
             this.k =k;
         }
