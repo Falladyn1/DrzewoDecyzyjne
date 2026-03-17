@@ -11,8 +11,6 @@ namespace DrzewoDecyzyjne
         double[] _x;//srednia
         double[] std;//odchylenie
 
-        // tak był pierwszy pomysł ale przegladam kila razy tą samą tabele co można zredukować 
-
         //public double[] obliczSrednia(double[][] tab)
         //{
         //    int kolumny = tab[0].Length;
@@ -61,19 +59,23 @@ namespace DrzewoDecyzyjne
             for (int i = 0; i < kolumny; i++)
             {
                 double suma = 0;
-                double sumaKwadratow = 0;
-
                 for (int j = 0; j < wiersze; j++)
                 {
-                    double wartosc = tab[j][i];
-                    suma += wartosc;
-                    sumaKwadratow += wartosc * wartosc;
+                    suma += tab[j][i];
+                }
+                this._x[i] = suma / wiersze;
+            }
+
+            for (int i = 0; i < kolumny; i++)
+            {
+                double sumaKwadratow = 0;
+                for (int j = 0; j < wiersze; j++)
+                {
+                    double roznica = tab[j][i] - this._x[i];
+                    sumaKwadratow += roznica * roznica;
                 }
 
-                this._x[i] = suma / wiersze;
-
-                double wariancja = (sumaKwadratow / wiersze) - (this._x[i] * this._x[i]);
-
+                double wariancja = sumaKwadratow / wiersze;
                 this.std[i] = wariancja > 0 ? Math.Sqrt(wariancja) : 0;
             }
         }
