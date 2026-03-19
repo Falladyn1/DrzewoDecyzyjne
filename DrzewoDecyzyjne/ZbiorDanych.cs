@@ -9,6 +9,11 @@ namespace DrzewoDecyzyjne
         private double[][] wektory;
         private string[] etykiety;
 
+        public int LiczbaWierszy
+        {
+            get { return wektory.Length; }
+        }
+
         public void wczytajDane(string sciezka)
         {
             if (!File.Exists(sciezka))
@@ -75,5 +80,7 @@ namespace DrzewoDecyzyjne
         }
 
         public double this[int i, int j] { get { return wektory[i][j]; } }
+
+        public string PobierzEtykiete(int i) { return etykiety[i]; }
     }
 }
