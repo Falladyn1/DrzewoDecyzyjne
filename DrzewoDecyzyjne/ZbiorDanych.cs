@@ -4,7 +4,7 @@ using System.IO;
 
 namespace DrzewoDecyzyjne
 {
-    internal class Baza
+    internal class ZbiorDanych
     {
         public double[][] wektory;
         public string[] etykiety;

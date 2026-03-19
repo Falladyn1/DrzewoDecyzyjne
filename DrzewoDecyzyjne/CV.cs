@@ -19,7 +19,7 @@ namespace DrzewoDecyzyjne
                 indexTable[i] = i;
             Random.Shared.Shuffle(indexTable);
 
-            this.k =k;
+            this.k = k;
         }
 
         public List<(int[], int[])> MakeCV()
