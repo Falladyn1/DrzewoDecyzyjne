@@ -6,8 +6,8 @@ namespace DrzewoDecyzyjne
 {
     internal class ZbiorDanych
     {
-        public double[][] wektory;
-        public string[] etykiety;
+        private double[][] wektory;
+        private string[] etykiety;
 
         public void wczytajDane(string sciezka)
         {
@@ -73,5 +73,7 @@ namespace DrzewoDecyzyjne
                 Console.WriteLine($"  {etykiety[i]}");
             }
         }
+
+        public double this[int i, int j] { get { return wektory[i][j]; } }
     }
 }
