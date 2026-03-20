@@ -13,13 +13,13 @@ namespace DrzewoDecyzyjne
         //Wezel lewy
         //Wezel prawy
 
-        int prog;
-        int cecha;
+        double prog;
+        double cecha;
 
         Wezel prawy;
         Wezel lewy;
 
-        DrzewoDecyzyjne(int p, int c)
+        WezelDecyzyjny(double p, double c)
         {
             prog = p;
             cecha = c;
