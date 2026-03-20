@@ -15,17 +15,23 @@ namespace DrzewoDecyzyjne
         //Wezel ZbudujDrzewo(index)
 
         Wezel korzen;
-        string dane;
+        ZbiorDanych dane;
         int glebokosc;
 
+        Drzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
+        {
+            this.dane = daneWejsciowe;
+            this.glebokosc = maxGlebokosc;
+        }
         void UtworzDrzewo()
         {
-            for (int i = 0; i < dane.Length; i++)
-            {
-                
-            }
-        }
+            int[] indeksyP = 
 
-        Wezel ZbudujDrzewo(int index)
+            korzen = ZbudujDrzewo(indeksyP)        }
+
+        //Wezel ZbudujDrzewo(int index)
+        //{
+
+        //}
     }
 }
