@@ -10,6 +10,6 @@ namespace DrzewoDecyzyjne
     {
         int[] index;
 
-
+        public abstract void Wypisz(string wciecie, int poziom);
     }
 }

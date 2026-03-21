@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DrzewoDecyzyjne
 {
-    internal class WezelDecyzyjny
+    internal class WezelDecyzyjny : Wezel
     {
         //prog
         //cecha
@@ -14,15 +14,25 @@ namespace DrzewoDecyzyjne
         //Wezel prawy
 
         double prog;
-        double cecha;
+        int cecha;
 
         Wezel prawy;
         Wezel lewy;
 
-        WezelDecyzyjny(double p, double c)
+        public WezelDecyzyjny(double pr, int c, Wezel l, Wezel p)
         {
-            prog = p;
+            prog = pr;
             cecha = c;
+            lewy = l;
+            prawy = p;
+        }
+
+        public override void Wypisz(string wciecie, int poziom)
+        {
+            Console.WriteLine($"{wciecie}[Poziom {poziom}] Czy cecha {cecha} > {prog}?");
+
+            lewy.Wypisz(wciecie + "   ", poziom + 1);
+            prawy.Wypisz(wciecie + "   ", poziom + 1);
         }
     }
 }
