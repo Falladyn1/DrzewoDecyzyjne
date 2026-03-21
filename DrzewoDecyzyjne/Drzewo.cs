@@ -14,24 +14,74 @@ namespace DrzewoDecyzyjne
         //utworzDrzewo(){}
         //Wezel ZbudujDrzewo(index)
 
-        Wezel korzen;
-        ZbiorDanych dane;
-        int glebokosc;
+        private Wezel korzen;
+        private ZbiorDanych dane;
+        private int maxGlebokosc;
 
-        Drzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
+
+        public void UtworzDrzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
         {
             this.dane = daneWejsciowe;
-            this.glebokosc = maxGlebokosc;
+            this.maxGlebokosc = maxGlebokosc;
+
+            int[] indeksyZDanych = new int[dane.LiczbaWierszy];
+            for (int i = 0; i<dane.LiczbaWierszy; i++)
+            {
+                indeksyZDanych[i]=i;
+            }
+
+            korzen = ZbudujDrzewo(indeksyZDanych, 0);
         }
-        void UtworzDrzewo()
+
+        public Wezel ZbudujDrzewo(int[] indeksyZDanych, int glebokosc)
         {
-            int[] indeksyP = 
+            if (indeksyZDanych.Length <= 1 || this.maxGlebokosc < glebokosc)
+            {
+                if (indeksyZDanych.Length == 0)
+                {
+                    return new WezelLisc("Brak danych");
+                }
 
-            korzen = ZbudujDrzewo(indeksyP)        }
+                int wiersz = indeksyZDanych[0];
+                string znalezionaEtykieta = dane.PobierzEtykiete(wiersz);
 
-        //Wezel ZbudujDrzewo(int index)
-        //{
+                return new WezelLisc(znalezionaEtykieta);
+            }
 
-        //}
+            Random rng = new Random();
+            int wylosowanaCecha = rng.Next(0, 4);
+
+            int losowyIndex = rng.Next(0, indeksyZDanych.Length);
+            int wierszPrawidlowy = indeksyZDanych[losowyIndex];
+            double wylosowanyProg = dane[wierszPrawidlowy, wylosowanaCecha];
+
+            List<int> indeksyPrawe = new List<int>();
+            List<int> indeksyLewe = new List<int>();
+
+            foreach (int i in indeksyZDanych)
+            {
+                if (dane[i, wylosowanaCecha] > wylosowanyProg)
+                {
+                    indeksyLewe.Add(i);
+                }
+                else
+                {
+                    indeksyPrawe.Add(i);
+                }
+            }
+
+            int[] tabLewe = indeksyLewe.ToArray();
+            int[] tabPrawe = indeksyPrawe.ToArray();
+
+            Wezel wezelLewy = ZbudujDrzewo(tabLewe, glebokosc+1);
+            Wezel wezelPrawy = ZbudujDrzewo(tabPrawe, glebokosc+1);
+            return new WezelDecyzyjny(wylosowanyProg, wylosowanaCecha, wezelLewy, wezelPrawy);
+        }
+
+
+        public void WypiszDrzewo()
+        {
+            korzen.Wypisz("", 0);
+        }
     }
 }
