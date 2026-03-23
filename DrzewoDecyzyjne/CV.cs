@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace DrzewoDecyzyjne
 {
     internal class CV
-    {   
+    {
         int[] indexTable;
         int k;
-        
+
         //konstruktor
         public CV(int k, int size)
         {
@@ -53,7 +53,7 @@ namespace DrzewoDecyzyjne
                 }
 
                 dataIndex.Add((train, test));
-                count += step; 
+                count += step;
             }
             return dataIndex;
         }

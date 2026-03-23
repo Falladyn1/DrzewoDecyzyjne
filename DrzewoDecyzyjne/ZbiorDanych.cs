@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Collections.Generic;
 
 namespace DrzewoDecyzyjne
 {
@@ -11,76 +12,37 @@ namespace DrzewoDecyzyjne
 
         public int LiczbaWierszy
         {
-            get { return wektory.Length; }
+            get { return wektory != null ? wektory.Length : 0; }
         }
 
         public void wczytajDane(string sciezka)
         {
-            if (!File.Exists(sciezka))
-            {
-                Console.WriteLine($"Błąd: Nie znaleziono pliku {sciezka}");
-                return;
-            }
+            if (!File.Exists(sciezka)) return;
 
-            int lWierszy = 0;
+            string[] linie = File.ReadAllLines(sciezka);
+            List<double[]> listaWektorow = new List<double[]>();
+            List<string> listaEtykiet = new List<string>();
 
-            using (StreamReader sr = new StreamReader(sciezka))
+            foreach (string linia in linie)
             {
-                string linia;
-                while ((linia = sr.ReadLine()) != null)
+                if (string.IsNullOrWhiteSpace(linia)) continue;
+                string[] fragmenty = linia.Split(',');
+
+                double[] cechy = new double[fragmenty.Length - 1];
+                for (int i = 0; i < cechy.Length; i++)
                 {
-                    if (!string.IsNullOrWhiteSpace(linia))
-                    {
-                        lWierszy++;
-                    }
+                    double.TryParse(fragmenty[i], NumberStyles.Any, CultureInfo.InvariantCulture, out cechy[i]);
                 }
+
+                listaWektorow.Add(cechy);
+                listaEtykiet.Add(fragmenty[fragmenty.Length - 1].Trim());
             }
 
-            if (lWierszy == 0) return;
-
-            wektory = new double[lWierszy][];
-            etykiety = new string[lWierszy];
-
-            using (StreamReader sr = new StreamReader(sciezka))
-            {
-                string linia;
-                int i = 0;
-                while ((linia = sr.ReadLine()) != null)
-                {
-                    if (string.IsNullOrWhiteSpace(linia)) continue;
-
-                    string[] fragmenty = linia.Split(',');
-                    int liczbaCech = fragmenty.Length - 1;
-
-                    wektory[i] = new double[liczbaCech];
-
-                    for (int j = 0; j < liczbaCech; j++)
-                    {
-                        double.TryParse(fragmenty[j], NumberStyles.Any, CultureInfo.InvariantCulture, out wektory[i][j]);
-                    }
-
-                    etykiety[i] = fragmenty[liczbaCech].Trim();
-                    i++;
-                }
-            }
-        }
-
-        public void drukujDane()
-        {
-            if (wektory == null) return;
-
-            for (int i = 0; i < wektory.Length; i++)
-            {
-                for (int j = 0; j < wektory[i].Length; j++)
-                {
-                    Console.Write($"{wektory[i][j],7:0.0} ");
-                }
-                Console.WriteLine($"  {etykiety[i]}");
-            }
+            wektory = listaWektorow.ToArray();
+            etykiety = listaEtykiet.ToArray();
         }
 
         public double this[int i, int j] { get { return wektory[i][j]; } }
-
         public string PobierzEtykiete(int i) { return etykiety[i]; }
     }
 }

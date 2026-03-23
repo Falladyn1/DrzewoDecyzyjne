@@ -86,12 +86,12 @@ namespace DrzewoDecyzyjne
             int wiersze = tab.Length;
 
             obliczStatystyki(tab);
-            
+
             double[][] wynik = new double[wiersze][];
             for (int i = 0; i < wiersze; i++)
             {
                 wynik[i] = new double[kolumny];
-            } 
+            }
             for (int i = 0; i < kolumny; i++)
             {
                 double sredniaKol = _x[i];
@@ -103,7 +103,7 @@ namespace DrzewoDecyzyjne
                     else
                         wynik[j][i] = 0;
                 }
-                
+
             }
             return wynik;
         }
