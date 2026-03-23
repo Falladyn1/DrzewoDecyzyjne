@@ -29,7 +29,6 @@ namespace DrzewoDecyzyjne
         {
             if (indeksy.Length == 0) return "Brak danych";
 
-            // Bezpośredni zwrot, bez użycia 'var'
             return indeksy
                 .GroupBy(i => dane.PobierzEtykiete(i))
                 .MaxBy(g => g.Count())
