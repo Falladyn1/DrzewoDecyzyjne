@@ -27,7 +27,7 @@ namespace DrzewoDecyzyjne
 
         public Wezel ZbudujDrzewo(int[] indeksy, int glebokosc)
         {
-            if (indeksy.Length == 0) return new WezelLisc("Brak danych");
+            if (indeksy.Length == 0) return new WezelLisc("Brak danych", indeksy);
 
             int losowyIndeks = indeksy[rng.Next(indeksy.Length)];
             string Etykieta = dane.PobierzEtykiete(losowyIndeks);
@@ -44,7 +44,7 @@ namespace DrzewoDecyzyjne
 
             if (czyCzyste || indeksy.Length <= 1 || glebokosc >= maxGlebokosc)
             {
-                return new WezelLisc(Etykieta);
+                return new WezelLisc(Etykieta, indeksy);
             }
 
             int cecha = rng.Next(0, 4);
@@ -63,12 +63,13 @@ namespace DrzewoDecyzyjne
 
             if (listaLewa.Count == 0 || listaPrawa.Count == 0)
             {
-                return new WezelLisc(Etykieta);
+                return new WezelLisc(Etykieta, indeksy);
             }
 
             return new WezelDecyzyjny(prog, cecha,
                 ZbudujDrzewo(listaLewa.ToArray(), glebokosc + 1),
-                ZbudujDrzewo(listaPrawa.ToArray(), glebokosc + 1));
+                ZbudujDrzewo(listaPrawa.ToArray(), glebokosc + 1),
+                indeksy);
         }
 
         public void WypiszDrzewo()
