@@ -12,7 +12,7 @@ namespace DrzewoDecyzyjne
 
         public int LiczbaWierszy
         {
-            get { return wektory != null ? wektory.Length : 0; }
+            get { return wektory.Length; }
         }
 
         public void wczytajDane(string sciezka)

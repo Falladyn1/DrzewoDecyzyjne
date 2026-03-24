@@ -9,12 +9,13 @@ namespace DrzewoDecyzyjne
         Wezel lewy;
         Wezel prawy;
 
-        public WezelDecyzyjny(double pr, int c, Wezel l, Wezel p)
+        public WezelDecyzyjny(double pr, int c, Wezel l, Wezel p, int[] indeksy)
         {
             this.prog = pr;
             this.cecha = c;
             this.lewy = l;
             this.prawy = p;
+            this.Index = indeksy;
         }
 
         public override void Wypisz(string wciecie, int poziom)

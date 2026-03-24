@@ -25,26 +25,17 @@ namespace DrzewoDecyzyjne
             korzen = ZbudujDrzewo(indeksy, 0);
         }
 
-        private string ZnajdzNajczestszaEtykiete(int[] indeksy)
-        {
-            if (indeksy.Length == 0) return "Brak danych";
-
-            return indeksy
-                .GroupBy(i => dane.PobierzEtykiete(i))
-                .MaxBy(g => g.Count())
-                .Key;
-        }
-
-        private Wezel ZbudujDrzewo(int[] indeksy, int glebokosc)
+        public Wezel ZbudujDrzewo(int[] indeksy, int glebokosc)
         {
             if (indeksy.Length == 0) return new WezelLisc("Brak danych");
 
-            string dominujacaEtykieta = ZnajdzNajczestszaEtykiete(indeksy);
+            int losowyIndeks = indeksy[rng.Next(indeksy.Length)];
+            string Etykieta = dane.PobierzEtykiete(losowyIndeks);
 
             bool czyCzyste = true;
             foreach (int i in indeksy)
             {
-                if (dane.PobierzEtykiete(i) != dominujacaEtykieta)
+                if (dane.PobierzEtykiete(i) != Etykieta)
                 {
                     czyCzyste = false;
                     break;
@@ -53,7 +44,7 @@ namespace DrzewoDecyzyjne
 
             if (czyCzyste || indeksy.Length <= 1 || glebokosc >= maxGlebokosc)
             {
-                return new WezelLisc(dominujacaEtykieta);
+                return new WezelLisc(Etykieta);
             }
 
             int cecha = rng.Next(0, 4);
@@ -72,7 +63,7 @@ namespace DrzewoDecyzyjne
 
             if (listaLewa.Count == 0 || listaPrawa.Count == 0)
             {
-                return new WezelLisc(dominujacaEtykieta);
+                return new WezelLisc(Etykieta);
             }
 
             return new WezelDecyzyjny(prog, cecha,
