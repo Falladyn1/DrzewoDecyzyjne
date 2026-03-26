@@ -16,5 +16,18 @@ namespace DrzewoDecyzyjne
         {
             Console.WriteLine($"{wciecie}[Poziom {poziom}] LISC: {etykieta} (Liczba wierszy: {Index.Length})");
         }
+        
+
+        // metoda rekurencyjna
+
+        public string Test(double[] x) // podajemy pojedynczy wektor i sprawdamy gdzie on bedzie i zwracamy etykiete
+
+        {
+            string et;
+
+
+
+            return;
+        }
     }
 }
