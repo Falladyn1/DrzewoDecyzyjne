@@ -8,8 +8,8 @@ namespace DrzewoDecyzyjne
 {
     internal class STD
     {
-        double[] _x;//srednia
-        double[] std;//odchylenie
+        private double[] _x;//srednia
+        private double[] std;//odchylenie
 
         //public double[] obliczSrednia(double[][] tab)
         //{

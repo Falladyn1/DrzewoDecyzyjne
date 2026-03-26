@@ -47,7 +47,7 @@ namespace DrzewoDecyzyjne
                 return new WezelLisc(Etykieta, indeksy);
             }
 
-            int cecha = rng.Next(0, 4);
+            int cecha = rng.Next(0, dane.LiczbaCech);
             double prog = dane[indeksy[rng.Next(indeksy.Length)], cecha];
 
             List<int> listaLewa = new List<int>();

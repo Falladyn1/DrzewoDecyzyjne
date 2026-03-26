@@ -15,6 +15,10 @@ namespace DrzewoDecyzyjne
             get { return wektory.Length; }
         }
 
+        public int LiczbaCech
+        {
+            get { return wektory.Length > 0 ? wektory[0].Length : 0; }
+
         public void wczytajDane(string sciezka)
         {
             if (!File.Exists(sciezka)) return;

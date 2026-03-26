@@ -8,8 +8,8 @@ namespace DrzewoDecyzyjne
 {
     internal class CV
     {
-        int[] indexTable;
-        int k;
+        private int[] indexTable;
+        private int k;
 
         //konstruktor
         public CV(int k, int size)

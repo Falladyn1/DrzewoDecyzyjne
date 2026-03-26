@@ -4,10 +4,10 @@ namespace DrzewoDecyzyjne
 {
     internal class WezelDecyzyjny : Wezel
     {
-        double prog;
-        int cecha;
-        Wezel lewy;
-        Wezel prawy;
+        private double prog;
+        private int cecha;
+        private Wezel lewy;
+        private Wezel prawy;
 
         public WezelDecyzyjny(double pr, int c, Wezel l, Wezel p, int[] indeksy)
         {
