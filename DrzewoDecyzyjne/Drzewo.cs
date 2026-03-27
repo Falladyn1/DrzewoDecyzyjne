@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DrzewoDecyzyjne
@@ -75,6 +76,50 @@ namespace DrzewoDecyzyjne
         public void WypiszDrzewo()
         {
             if (korzen != null) korzen.Wypisz("", 0);
+        }
+
+        public string Test(double[] x)
+        {
+            if (korzen != null)
+            {
+                return korzen.Test(x);
+            }
+            return "Drzewo nie zostało jeszcze zbudowane!";
+        }
+
+        private double obliczGini(int[] indeksy)
+        {
+            int n = indeksy.Length;
+            if (n == 0) return 0.0;
+
+            List<string> listaEt = new List<string>();
+            List<int> liczniki = new List<int>();
+
+            foreach (int i in indeksy)
+            {
+                string etykieta = dane.PobierzEtykiete(i);
+                int pozycja = listaEt.IndexOf(etykieta);
+                
+                if (pozycja == -1)
+                {
+                    listaEt.Add(etykieta);
+                    liczniki.Add(1);
+                }
+                else
+                {
+                    liczniki[pozycja]++;
+                }
+            }
+
+            double sumaKwadratow = 0.0;
+
+            foreach (int licznik in liczniki)
+            {
+                double p = (double)licznik/n;
+                sumaKwadratow = p * p;
+            }
+
+            return 1 - sumaKwadratow;
         }
     }
 }

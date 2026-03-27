@@ -8,6 +8,6 @@ namespace DrzewoDecyzyjne
 
         public abstract void Wypisz(string wciecie, int poziom);
 
-        public abstract string Test(double[] x);
+        public abstract string Test(double[] wektor);
     }
 }

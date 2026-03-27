@@ -18,6 +18,7 @@ namespace DrzewoDecyzyjne
         public int LiczbaCech
         {
             get { return wektory.Length > 0 ? wektory[0].Length : 0; }
+        }
 
         public void wczytajDane(string sciezka)
         {
@@ -48,5 +49,18 @@ namespace DrzewoDecyzyjne
 
         public double this[int i, int j] { get { return wektory[i][j]; } }
         public string PobierzEtykiete(int i) { return etykiety[i]; }
+
+        public double[] PobierzKolmne(int indexKolumny, int[] indexTab)
+        {
+            double[] kol = new double[indexTab.Length];
+            for (int i = 0; i<indexTab.Length; i++)
+            {
+                int indexWiersza = indexTab[i];
+                kol[i] = wektory[indexWiersza][indexKolumny];
+            }
+            return kol;
+
+
+        }
     }
 }

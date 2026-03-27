@@ -18,16 +18,9 @@ namespace DrzewoDecyzyjne
         }
         
 
-        // metoda rekurencyjna
-
-        public string Test(double[] x) // podajemy pojedynczy wektor i sprawdamy gdzie on bedzie i zwracamy etykiete
-
+        public override string Test(double[] wektor)
         {
-            string et;
-
-
-
-            return;
+            return this.etykieta;
         }
     }
 }
