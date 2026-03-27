@@ -5,8 +5,8 @@ ZbiorDanych baza1 = new ZbiorDanych();
 baza1.wczytajDane("iris.data");
 
 Drzewo drzewo = new Drzewo();
-drzewo.UtworzDrzewo(baza1, 30);
-drzewo.WypiszDrzewo();
+drzewo.utworzDrzewo(baza1, 30);
+drzewo.wypiszDrzewo();
 
 
 double[] testowyKwiatek = new double[] { 5.1, 3.5, 1.4, 0.2 };

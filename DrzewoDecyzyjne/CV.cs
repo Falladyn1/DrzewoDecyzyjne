@@ -22,7 +22,7 @@ namespace DrzewoDecyzyjne
             this.k = k;
         }
 
-        public List<(int[], int[])> MakeCV()
+        public List<(int[], int[])> makeCV()
         {
             List<(int[], int[])> dataIndex = new List<(int[], int[])>();
             double step = (double)indexTable.Length / k;

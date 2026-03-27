@@ -12,7 +12,7 @@ namespace DrzewoDecyzyjne
         private int maxGlebokosc;
         private Random rng = new Random();
 
-        public void UtworzDrzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
+        public void utworzDrzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
         {
             this.dane = daneWejsciowe;
             this.maxGlebokosc = maxGlebokosc;
@@ -23,20 +23,56 @@ namespace DrzewoDecyzyjne
                 indeksy[i] = i;
             }
 
-            korzen = ZbudujDrzewo(indeksy, 0);
+            korzen = zbudujDrzewo(indeksy, 0);
         }
 
-        public Wezel ZbudujDrzewo(int[] indeksy, int glebokosc)
+        private string znajdzNajczestszaEtykiete(int[] indeksy)
+        {
+            List<string> listaEt = new List<string>();
+            List<int> liczniki = new List<int>();
+
+            foreach (int i in indeksy)
+            {
+                string etykieta = dane.pobierzEtykiete(i);
+                int pozycja = listaEt.IndexOf(etykieta);
+
+                if (pozycja == -1)
+                {
+                    listaEt.Add(etykieta);
+                    liczniki.Add(1);
+                }
+                else
+                {
+                    liczniki[pozycja]++;
+                }
+            }
+
+            int maxLicznik = -1;
+            int najlepszyIndeks = -1;
+
+            for (int j = 0; j < liczniki.Count; j++)
+            {
+                if (liczniki[j] > maxLicznik)
+                {
+                    maxLicznik = liczniki[j];
+                    najlepszyIndeks = j;
+                }
+            }
+
+            return listaEt[najlepszyIndeks];
+        }
+
+        public Wezel zbudujDrzewo(int[] indeksy, int glebokosc)
         {
             if (indeksy.Length == 0) return new WezelLisc("Brak danych", indeksy);
 
-            int losowyIndeks = indeksy[rng.Next(indeksy.Length)];
-            string Etykieta = dane.PobierzEtykiete(losowyIndeks);
+
+            string Etykieta = znajdzNajczestszaEtykiete(indeksy);
 
             bool czyCzyste = true;
             foreach (int i in indeksy)
             {
-                if (dane.PobierzEtykiete(i) != Etykieta)
+                if (dane.pobierzEtykiete(i) != Etykieta)
                 {
                     czyCzyste = false;
                     break;
@@ -48,8 +84,9 @@ namespace DrzewoDecyzyjne
                 return new WezelLisc(Etykieta, indeksy);
             }
 
-            int cecha = rng.Next(0, dane.LiczbaCech);
-            double prog = dane[indeksy[rng.Next(indeksy.Length)], cecha];
+            var podzial = najlepszyPodział(indeksy);
+            int cecha = podzial.Item1;
+            double prog = podzial.Item2;
 
             List<int> listaLewa = new List<int>();
             List<int> listaPrawa = new List<int>();
@@ -68,23 +105,9 @@ namespace DrzewoDecyzyjne
             }
 
             return new WezelDecyzyjny(prog, cecha,
-                ZbudujDrzewo(listaLewa.ToArray(), glebokosc + 1),
-                ZbudujDrzewo(listaPrawa.ToArray(), glebokosc + 1),
+                zbudujDrzewo(listaLewa.ToArray(), glebokosc + 1),
+                zbudujDrzewo(listaPrawa.ToArray(), glebokosc + 1),
                 indeksy);
-        }
-
-        public void WypiszDrzewo()
-        {
-            if (korzen != null) korzen.Wypisz("", 0);
-        }
-
-        public string Test(double[] x)
-        {
-            if (korzen != null)
-            {
-                return korzen.Test(x);
-            }
-            return "Drzewo nie zostało jeszcze zbudowane!";
         }
 
         private double obliczGini(int[] indeksy)
@@ -97,7 +120,7 @@ namespace DrzewoDecyzyjne
 
             foreach (int i in indeksy)
             {
-                string etykieta = dane.PobierzEtykiete(i);
+                string etykieta = dane.pobierzEtykiete(i);
                 int pozycja = listaEt.IndexOf(etykieta);
                 
                 if (pozycja == -1)
@@ -116,10 +139,70 @@ namespace DrzewoDecyzyjne
             foreach (int licznik in liczniki)
             {
                 double p = (double)licznik/n;
-                sumaKwadratow = p * p;
+                sumaKwadratow += p * p;
             }
 
             return 1 - sumaKwadratow;
         }
+
+        private (int, double) najlepszyPodział(int[] indeksy)
+        {
+            int najlepszaCecha = -1; //indeks
+            double najlepszyProg = 0;
+            double najWynik = double.MaxValue;
+
+            for (int i = 0; i<dane.LiczbaCech; i++)
+            {
+                double[] progi = dane.pobierzProgi(i,indeksy);
+                foreach (double prog in progi)
+                {
+                    List<int> listaLewa = new List<int>();
+                    List<int> listaPrawa = new List<int>();
+
+                    foreach (int indeksWiesza in indeksy)
+                    {
+                        if (dane[indeksWiesza, i] <= prog)
+                        {
+                            listaLewa.Add(indeksWiesza);
+                        }
+                        else
+                        {
+                            listaPrawa.Add(indeksWiesza);
+                        }
+                    }
+                    double nl = (listaLewa.ToArray().Count());
+                    double nr = (listaPrawa.ToArray().Count());
+                    double n = nl + nr;
+                    double p = nl*obliczGini(listaLewa.ToArray())/n + nr*obliczGini(listaPrawa.ToArray())/n;
+
+                    if (p<najWynik)
+                    {
+                        najWynik=p;
+                        najlepszaCecha = i;
+                        najlepszyProg = prog;
+                    }
+                }
+                
+            }
+
+
+            return (najlepszaCecha, najlepszyProg);
+        }
+        
+
+        public string Test(double[] x)
+        {
+            if (korzen != null)
+            {
+                return korzen.Test(x);
+            }
+            return "Drzewo nie zostało jeszcze zbudowane!";
+        }
+
+        public void wypiszDrzewo()
+        {
+            if (korzen != null) korzen.Wypisz("", 0);
+        }
+
     }
 }

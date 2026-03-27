@@ -48,7 +48,7 @@ namespace DrzewoDecyzyjne
         //    return wynik;
         //}
 
-        public void obliczStatystyki(double[][] tab)
+        private void obliczStatystyki(double[][] tab)
         {
             int kolumny = tab[0].Length;
             int wiersze = tab.Length;

@@ -48,19 +48,46 @@ namespace DrzewoDecyzyjne
         }
 
         public double this[int i, int j] { get { return wektory[i][j]; } }
-        public string PobierzEtykiete(int i) { return etykiety[i]; }
+        public string pobierzEtykiete(int i) { return etykiety[i]; }
 
-        public double[] PobierzKolmne(int indexKolumny, int[] indexTab)
+        public double[] pobierzProgi(int indexKolumny, int[] indexTab)
         {
-            double[] kol = new double[indexTab.Length];
+            double[] kolumna = new double[indexTab.Length];
             for (int i = 0; i<indexTab.Length; i++)
             {
                 int indexWiersza = indexTab[i];
-                kol[i] = wektory[indexWiersza][indexKolumny];
+                kolumna[i] = wektory[indexWiersza][indexKolumny];
             }
-            return kol;
+            double[] unikalne = kolumna.Distinct().ToArray();
+            Array.Sort(unikalne);
 
+            if (unikalne.Length <= 1) return new double[0];
 
+            double[] progi = new double[unikalne.Length - 1];
+
+            for (int i = 0; i < unikalne.Length - 1; i++)
+            {
+                progi[i] = (unikalne[i] + unikalne[i + 1]) / 2.0;
+            }
+
+            return progi;
         }
+
+        //public double[] posortujKolumne(double[] kol)
+        //{
+        //    double[] unikalne = kol.Distinct().ToArray();
+        //    Array.Sort(unikalne);
+
+        //    if (unikalne.Length <= 1) return new double[0];
+
+        //    double[] progi = new double[unikalne.Length - 1];
+
+        //    for (int i = 0; i < unikalne.Length - 1; i++)
+        //    {
+        //        progi[i] = (unikalne[i] + unikalne[i + 1]) / 2.0;
+        //    }
+
+        //        return progi;
+        //}
     }
 }
