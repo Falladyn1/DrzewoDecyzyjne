@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DrzewoDecyzyjne
+namespace DrzewoDecyzyjne.Drzewo
 {
     internal class WezelLisc : Wezel
     {
@@ -8,8 +8,8 @@ namespace DrzewoDecyzyjne
 
         public WezelLisc(string et, int[] indeksy)
         {
-            this.etykieta = et;
-            this.Index = indeksy;
+            etykieta = et;
+            Index = indeksy;
         }
 
         public override void Wypisz(string wciecie, int poziom)
@@ -20,7 +20,7 @@ namespace DrzewoDecyzyjne
 
         public override string Test(double[] wektor)
         {
-            return this.etykieta;
+            return etykieta;
         }
     }
 }

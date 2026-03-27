@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DrzewoDecyzyjne
+namespace DrzewoDecyzyjne.Drzewo
 {
     internal abstract class Wezel
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace DrzewoDecyzyjne
+namespace DrzewoDecyzyjne.Drzewo
 {
     internal class Drzewo
     {
@@ -14,7 +14,7 @@ namespace DrzewoDecyzyjne
 
         public void utworzDrzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
         {
-            this.dane = daneWejsciowe;
+            dane = daneWejsciowe;
             this.maxGlebokosc = maxGlebokosc;
 
             int[] indeksy = new int[dane.LiczbaWierszy];
@@ -170,8 +170,8 @@ namespace DrzewoDecyzyjne
                             listaPrawa.Add(indeksWiesza);
                         }
                     }
-                    double nl = (listaLewa.ToArray().Count());
-                    double nr = (listaPrawa.ToArray().Count());
+                    double nl = listaLewa.ToArray().Count();
+                    double nr = listaPrawa.ToArray().Count();
                     double n = nl + nr;
                     double p = nl*obliczGini(listaLewa.ToArray())/n + nr*obliczGini(listaPrawa.ToArray())/n;
 

@@ -1,4 +1,5 @@
 ﻿using DrzewoDecyzyjne;
+using DrzewoDecyzyjne.Drzewo;
 using System;
 
 ZbiorDanych baza1 = new ZbiorDanych();
