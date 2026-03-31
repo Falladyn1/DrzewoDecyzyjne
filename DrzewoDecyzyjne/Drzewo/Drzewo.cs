@@ -12,18 +12,18 @@ namespace DrzewoDecyzyjne.Drzewo
         private int maxGlebokosc;
         private Random rng = new Random();
 
-        public void utworzDrzewo(ZbiorDanych daneWejsciowe, int maxGlebokosc)
+        public void utworzDrzewo(ZbiorDanych daneWejsciowe, int[] indeksyTreningowe, int maxGlebokosc)
         {
             dane = daneWejsciowe;
             this.maxGlebokosc = maxGlebokosc;
 
-            int[] indeksy = new int[dane.LiczbaWierszy];
-            for (int i = 0; i < dane.LiczbaWierszy; i++)
-            {
-                indeksy[i] = i;
-            }
+            //int[] indeksy = new int[dane.LiczbaWierszy];
+            //for (int i = 0; i < dane.LiczbaWierszy; i++)
+            //{
+            //    indeksy[i] = i;
+            //}
 
-            korzen = zbudujDrzewo(indeksy, 0);
+            korzen = zbudujDrzewo(indeksyTreningowe, 0);
         }
 
         private string znajdzNajczestszaEtykiete(int[] indeksy)
@@ -87,6 +87,11 @@ namespace DrzewoDecyzyjne.Drzewo
             var podzial = najlepszyPodział(indeksy);
             int cecha = podzial.Item1;
             double prog = podzial.Item2;
+
+            if (cecha == -1)
+            {
+                return new WezelLisc(Etykieta, indeksy);
+            }
 
             List<int> listaLewa = new List<int>();
             List<int> listaPrawa = new List<int>();

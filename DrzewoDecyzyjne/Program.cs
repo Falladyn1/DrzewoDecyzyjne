@@ -1,18 +1,46 @@
 ﻿using DrzewoDecyzyjne;
 using DrzewoDecyzyjne.Drzewo;
 using System;
+using System.Collections.Generic;
 
-ZbiorDanych baza1 = new ZbiorDanych();
-baza1.wczytajDane("iris.data");
+ZbiorDanych baza = new ZbiorDanych();
+baza.wczytajDane("iris.data");
 
-Drzewo drzewo = new Drzewo();
-drzewo.utworzDrzewo(baza1, 30);
-drzewo.wypiszDrzewo();
+int k = 5; // 5-krotna walidacja
+CV cv = new CV(k, baza.LiczbaWierszy);
 
+List<(int[] train, int[] test)> folds = cv.makeCV();
 
-double[] testowyKwiatek = new double[] { 5.1, 3.5, 1.4, 0.2 };
+double sumaDokladnosci = 0;
 
-string przewidywanaEtykieta = drzewo.Test(testowyKwiatek);
+Console.WriteLine($"Rozpoczynam {k}-krotną walidację...\n");
 
-Console.WriteLine($"Wynik testu dla wektora [5.1, 3.5, 1.4, 0.2]: {przewidywanaEtykieta}");
+for (int i = 0; i < folds.Count; i++)
+{
+    var (train, test) = folds[i];
 
+    Drzewo drzewo = new Drzewo();
+    drzewo.utworzDrzewo(baza, train, 30);
+
+    int poprawne = 0;
+
+    foreach (int testIdx in test)
+    {
+        double[] wektorTestowy = baza.pobierzWektor(testIdx);
+        string prawdziwaEtykieta = baza.pobierzEtykiete(testIdx);
+
+        string przewidywana = drzewo.Test(wektorTestowy);
+
+        if (prawdziwaEtykieta == przewidywana)
+        {
+            poprawne++;
+        }
+    }
+
+    double dokladnosc = (double)poprawne / test.Length * 100;
+    sumaDokladnosci += dokladnosc;
+    Console.WriteLine($"Fold {i + 1}: Dokładność = {dokladnosc:F2}% (Odgadnięto {poprawne}/{test.Length})");
+}
+
+double sredniaDokladnosc = sumaDokladnosci / k;
+Console.WriteLine($"\nSrednia skuteczność Twojego algorytmu: {sredniaDokladnosc:F2}%");

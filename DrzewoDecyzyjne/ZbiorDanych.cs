@@ -73,21 +73,9 @@ namespace DrzewoDecyzyjne
             return progi;
         }
 
-        //public double[] posortujKolumne(double[] kol)
-        //{
-        //    double[] unikalne = kol.Distinct().ToArray();
-        //    Array.Sort(unikalne);
-
-        //    if (unikalne.Length <= 1) return new double[0];
-
-        //    double[] progi = new double[unikalne.Length - 1];
-
-        //    for (int i = 0; i < unikalne.Length - 1; i++)
-        //    {
-        //        progi[i] = (unikalne[i] + unikalne[i + 1]) / 2.0;
-        //    }
-
-        //        return progi;
-        //}
+        public double[] pobierzWektor(int i)
+        {
+            return wektory[i];
+        }
     }
 }
