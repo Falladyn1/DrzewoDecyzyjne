@@ -3,6 +3,11 @@ using DrzewoDecyzyjne.Drzewo;
 using System;
 using System.Collections.Generic;
 
+(int, double) Podzial()
+{
+    return (0, 0.0);
+}
+
 ZbiorDanych baza = new ZbiorDanych();
 baza.wczytajDane("iris.data");
 
@@ -19,7 +24,7 @@ for (int i = 0; i < folds.Count; i++)
 {
     var (train, test) = folds[i];
 
-    Drzewo drzewo = new Drzewo(20);
+    Drzewo drzewo = new Drzewo(20, Podzial);
     drzewo.utworzDrzewo(baza, train);
 
     int poprawne = 0;

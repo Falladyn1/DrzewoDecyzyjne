@@ -11,8 +11,9 @@ namespace DrzewoDecyzyjne.Drzewo
         private ZbiorDanych dane;
         private int maxGlebokosc;
         private Random rng = new Random();
-
-        public delegate (int cecha, double prog) StrategiaPodzialu(ZbiorDanych daneWejsiowe, List<int> indeksy);
+        //praca domowa
+        //Func<>
+        public delegate (int cecha, double prog) StrategiaPodzialu(ZbiorDanych daneWejsiowe, int[] indeksy);
 
         StrategiaPodzialu FunkcjaPodzialu = null;
 
@@ -91,9 +92,19 @@ namespace DrzewoDecyzyjne.Drzewo
                 return new WezelLisc(Etykieta, indeksy);
             }
 
-            var podzial = najlepszyPodział(indeksy);
-            int cecha = podzial.Item1;
-            double prog = podzial.Item2;
+            (int cecha, double prog) podzial;
+
+            if (FunkcjaPodzialu == null)
+            {
+                podzial = najlepszyPodział(indeksy);
+            }
+            else
+            {
+                podzial = FunkcjaPodzialu(dane, indeksy);
+            }
+
+            int cecha = podzial.cecha;
+            double prog = podzial.prog;
 
             if (cecha == -1)
             {
