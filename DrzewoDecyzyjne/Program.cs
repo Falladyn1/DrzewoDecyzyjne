@@ -19,8 +19,8 @@ for (int i = 0; i < folds.Count; i++)
 {
     var (train, test) = folds[i];
 
-    Drzewo drzewo = new Drzewo();
-    drzewo.utworzDrzewo(baza, train, 30);
+    Drzewo drzewo = new Drzewo(20);
+    drzewo.utworzDrzewo(baza, train);
 
     int poprawne = 0;
 

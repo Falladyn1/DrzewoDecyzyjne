@@ -12,11 +12,18 @@ namespace DrzewoDecyzyjne.Drzewo
         private int maxGlebokosc;
         private Random rng = new Random();
 
-        public void utworzDrzewo(ZbiorDanych daneWejsciowe, int[] indeksyTreningowe, int maxGlebokosc)
-        {
-            dane = daneWejsciowe;
-            this.maxGlebokosc = maxGlebokosc;
+        public delegate (int cecha, double prog) StrategiaPodzialu(ZbiorDanych daneWejsiowe, List<int> indeksy);
 
+        StrategiaPodzialu FunkcjaPodzialu = null;
+
+        public Drzewo(int glebokosc, StrategiaPodzialu funkcjaPodzialu)
+        {
+            maxGlebokosc = glebokosc;
+            FunkcjaPodzialu = funkcjaPodzialu;
+        }
+
+        public void utworzDrzewo(ZbiorDanych daneWejsciowe, int[] indeksyTreningowe)
+        {
             //int[] indeksy = new int[dane.LiczbaWierszy];
             //for (int i = 0; i < dane.LiczbaWierszy; i++)
             //{
@@ -175,6 +182,8 @@ namespace DrzewoDecyzyjne.Drzewo
                             listaPrawa.Add(indeksWiesza);
                         }
                     }
+                    // ograiczac uzywanie ToArray bo alokuje pamiec i 
+                    // count() liczy cala tablice 
                     double nl = listaLewa.ToArray().Count();
                     double nr = listaPrawa.ToArray().Count();
                     double n = nl + nr;
