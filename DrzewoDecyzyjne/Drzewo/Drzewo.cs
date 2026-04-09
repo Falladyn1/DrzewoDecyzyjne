@@ -17,7 +17,7 @@ namespace DrzewoDecyzyjne.Drzewo
 
         StrategiaPodzialu FunkcjaPodzialu = null;
 
-        public Drzewo(int glebokosc, StrategiaPodzialu funkcjaPodzialu)
+        public Drzewo(int glebokosc, StrategiaPodzialu? funkcjaPodzialu = null)
         {
             maxGlebokosc = glebokosc;
             FunkcjaPodzialu = funkcjaPodzialu;
