@@ -30,7 +30,7 @@ namespace DrzewoDecyzyjne.Drzewo
             //{
             //    indeksy[i] = i;
             //}
-
+            this.dane = daneWejsciowe;
             korzen = zbudujDrzewo(indeksyTreningowe, 0);
         }
 

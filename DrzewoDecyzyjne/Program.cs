@@ -8,7 +8,7 @@ using System.Linq;
 ZbiorDanych baza = new ZbiorDanych();
 baza.wczytajDane("iris.data");
 
-int k = 5; // 5-krotna walidacja
+int k = 10; // 10-krotna walidacja
 CV cv = new CV(k, baza.LiczbaWierszy);
 List<(int[] train, int[] test)> folds = cv.makeCV();
 
@@ -38,7 +38,7 @@ for (int i = 0; i < folds.Count; i++)
     Console.WriteLine($"Fold {i + 1}: Dokładność = {dokladnosc:F2}%");
 }
 
-Console.WriteLine($"\nŚrednia skuteczność algorytmu (Entropia): {sumaDokladnosci / k:F2}%");
+Console.WriteLine($"\nŚrednia skuteczność algorytmu: {sumaDokladnosci / k:F2}%");
 
 
 
