@@ -11,13 +11,9 @@ namespace DrzewoDecyzyjne.Drzewo
         private ZbiorDanych dane;
         private int maxGlebokosc;
         private Random rng = new Random();
-        //praca domowa
-        //Func<>
-        public delegate (int cecha, double prog) StrategiaPodzialu(ZbiorDanych daneWejsiowe, int[] indeksy);
+        public Func<ZbiorDanych, int[], (int cecha, double prog)> FunkcjaPodzialu = null;
 
-        StrategiaPodzialu FunkcjaPodzialu = null;
-
-        public Drzewo(int glebokosc, StrategiaPodzialu? funkcjaPodzialu = null)
+        public Drzewo(int glebokosc, Func<ZbiorDanych, int[], (int cecha, double prog)>? funkcjaPodzialu = null)
         {
             maxGlebokosc = glebokosc;
             FunkcjaPodzialu = funkcjaPodzialu;
@@ -195,8 +191,8 @@ namespace DrzewoDecyzyjne.Drzewo
                     }
                     // ograiczac uzywanie ToArray bo alokuje pamiec i 
                     // count() liczy cala tablice 
-                    double nl = listaLewa.ToArray().Count();
-                    double nr = listaPrawa.ToArray().Count();
+                    double nl = listaLewa.Count;
+                    double nr = listaPrawa.Count;
                     double n = nl + nr;
                     double p = nl*obliczGini(listaLewa.ToArray())/n + nr*obliczGini(listaPrawa.ToArray())/n;
 
